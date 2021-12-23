@@ -37,22 +37,22 @@ class CachePromise {
      * @param isRefresh 是否刷新缓存结果.true 则表示本次不使用缓存
      * @returns 
      */
-    public async get(id: string, promiseFun: any, ttl: number = 30, isRefresh: boolean = false) {
+    public async get(id: string, promiseFun: any, param: object = {}, ttl: number = 30, isRefresh: boolean = false) {
+        if (this.isCache && !isRefresh && this.cache.get(id)) { //如果开启缓存，缓存里面有就返回缓存里面的
+            return this.cache.get(id);
+        }
+
         if (id in this.pendingTask) {
             return new Promise((resolve: any, reject: any) => {
                 this.pendingTask[id].push({ resolve, reject })
             })
-        }
-    
-        if (this.isCache && !isRefresh && this.cache.get(id)) { //如果开启缓存，缓存里面有就返回缓存里面的
-            return this.cache.get(id);
         }
 
         let res: any | undefined
         let err: any
         try {
             this.pendingTask[id] = [];
-            res = await promiseFun;
+            res = await promiseFun(param);
             this.isCache && this.setCache(id, res, ttl);
         } catch (err) {
             err = err
