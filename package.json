@@ -1,0 +1,22 @@
+{
+  "name": "promisecache",
+  "version": "1.0.0",
+  "description": "promiseCache",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wanghanxiang/promiseCache.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wanghanxiang/promiseCache/issues"
+  },
+  "homepage": "https://github.com/wanghanxiang/promiseCache#readme",
+  "dependencies": {
+    "node-cache": "^5.1.2"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "compileOnSave": true,
+  "typedocOptions": {
+    "mode": "file",
+    //"inputFiles": ["./src"],
+    "out": "docs",
+    "readme": "none",
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "stripInternal": true
+  },
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "sourceMap": true,
+    //"outDir": "./build",
+    //"rootDir": "./src",
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": ["node_modules"]
+}
