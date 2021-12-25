@@ -1,4 +1,7 @@
-
+/**
+ * @author xiangzai
+ * 
+ */
 import NodeCache = require('node-cache');
 
 /**
@@ -37,7 +40,7 @@ class CachePromise {
      * @param isRefresh 是否刷新缓存结果.true 则表示本次不使用缓存
      * @returns 
      */
-    public async get(id: string, promiseFun: any, param: object = {}, ttl: number = 30, isRefresh: boolean = false) {
+    public async get<T>(id: string, promiseFun: () => Promise<T>, ttl: number = 30, isRefresh: boolean = false) {
         if (this.isCache && !isRefresh && this.cache.get(id)) { //如果开启缓存，缓存里面有就返回缓存里面的
             return this.cache.get(id);
         }
@@ -52,17 +55,18 @@ class CachePromise {
         let err: any
         try {
             this.pendingTask[id] = [];
-            res = await promiseFun(param);
+            res = await promiseFun();
             this.isCache && this.setCache(id, res, ttl);
         } catch (err) {
+            console.error(`[CachePromise]报错 ${err}`)
             err = err
         }
 
         for (let t of this.pendingTask[id]) {
             if (err != null) {
-                t.reject(err)
+                t.reject(err);
             } else {
-                t.resolve(res)
+                t.resolve(res);
             }
         }
 
@@ -72,7 +76,7 @@ class CachePromise {
             throw err;
         }
 
-        return res as any;
+        return res as T;
     }
 
     /**
@@ -99,5 +103,5 @@ class CachePromise {
 
 }
 
-const cache = new CachePromise(true);
-export default cache;
+const cache_promise = new CachePromise(true);
+export default cache_promise;
